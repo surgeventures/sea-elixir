@@ -1,0 +1,15 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/elixir:1.7.4
+    environment:
+      - MIX_ENV: test
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - run: mix local.hex --force
+      - run: mix local.rebar --force
+      - run: mix deps.get
+      - run: mix compile --warnings-as-errors --force
+      - run: mix test
