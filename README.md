@@ -1,5 +1,8 @@
 # Sea for Elixir
 
+[![Build status badge](https://img.shields.io/circleci/project/github/surgeventures/sea-elixir/master.svg)](https://circleci.com/gh/surgeventures/sea-elixir/tree/master)
+[![Code coverage badge](https://img.shields.io/codecov/c/github/surgeventures/sea-elixir/master.svg)](https://codecov.io/gh/surgeventures/sea-elixir/branch/master)
+
 Side-effect abstraction for Elixir - signal and observe your side-effects like a pro.
 
 ## Motivation
