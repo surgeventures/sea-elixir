@@ -9,7 +9,6 @@ jobs:
   sea:
     docker:
       - image: circleci/elixir:1.7.4
-      - image: circleci/postgres:10.6-alpine
     environment:
       - MIX_ENV: test
     working_directory: ~/repo
@@ -29,12 +28,13 @@ jobs:
   invoicing_app:
     docker:
       - image: circleci/elixir:1.7.4
+      - image: circleci/postgres:10.6-alpine
     environment:
       - MIX_ENV: test
-    working_directory: ~/repo
+    working_directory: ~/repo/examples/invoicing_app
     steps:
-      - checkout
-      - run: cd examples/invoicing_app
+      - checkout:
+          path: ~/repo
       - run: mix local.hex --force
       - run: mix local.rebar --force
       - run: mix deps.get
