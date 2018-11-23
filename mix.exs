@@ -10,6 +10,8 @@ defmodule Sea.MixProject do
       elixir: "~> 1.6",
       deps: deps(),
       elixirc_paths: elixirc_paths(Mix.env()),
+      test_coverage: [tool: ExCoveralls],
+      preferred_cli_env: preferred_cli_env(),
 
       # Hex
       description: "Side-effect abstraction - signal and observe your side-effects like a pro",
@@ -31,12 +33,22 @@ defmodule Sea.MixProject do
     [
       {:credo, "~> 0.10", only: [:dev, :test]},
       {:ex_doc, "~> 0.19", only: :dev},
+      {:excoveralls, "~> 0.10", only: :test},
       {:junit_formatter, "~> 3.0", only: :test}
     ]
   end
 
   defp elixirc_paths(:test), do: ["test/support", "lib"]
   defp elixirc_paths(_), do: ["lib"]
+
+  defp preferred_cli_env do
+    [
+      coveralls: :test,
+      "coveralls.detail": :test,
+      "coveralls.post": :test,
+      "coveralls.html": :test
+    ]
+  end
 
   defp package do
     [

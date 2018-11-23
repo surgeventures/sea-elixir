@@ -17,3 +17,5 @@ jobs:
       - store_test_results:
           path: /tmp/sea-elixir-test-results
       - run: mix credo
+      - run: mix coveralls.json
+      - run: bash <(curl -s https://codecov.io/bash)
