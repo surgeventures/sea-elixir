@@ -15,3 +15,4 @@ jobs:
       - run: mix test
       - store_test_results:
           path: /tmp/sea-elixir-test-results
+      - run: mix credo

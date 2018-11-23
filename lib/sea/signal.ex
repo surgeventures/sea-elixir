@@ -203,7 +203,7 @@ defmodule Sea.Signal do
   @doc """
   Emits passed signal struct to observers defined in the struct module.
   """
-  def emit(signal = %{__struct__: signal_mod}) do
+  def emit(%{__struct__: signal_mod} = signal) do
     observers = signal_mod.__observers__()
 
     Enum.each(observers, fn observer ->

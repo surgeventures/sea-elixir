@@ -29,6 +29,7 @@ defmodule Sea.MixProject do
 
   defp deps do
     [
+      {:credo, "~> 0.10", only: [:dev, :test]},
       {:ex_doc, "~> 0.19", only: :dev},
       {:junit_formatter, "~> 3.0", only: :test}
     ]
