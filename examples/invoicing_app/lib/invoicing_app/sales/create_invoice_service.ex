@@ -14,7 +14,7 @@ defmodule InvoicingApp.Sales.CreateInvoiceService do
         |> Invoice.changeset()
         |> Repo.insert!()
 
-      InvoiceCreatedSignal.emit(123)
+      InvoiceCreatedSignal.emit(invoice)
     end)
   end
 end

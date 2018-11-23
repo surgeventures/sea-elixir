@@ -3,6 +3,7 @@ defmodule InvoicingApp.Inventory.CreateProductService do
   alias InvoicingApp.Inventory.Product
 
   def call do
-    Repo.insert!(%Product{})
+    product = Repo.insert!(%Product{})
+    product.id
   end
 end

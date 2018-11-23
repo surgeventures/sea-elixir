@@ -3,6 +3,7 @@ defmodule InvoicingApp.Customers.RegisterAccountService do
   alias InvoicingApp.Customers.Account
 
   def call(name) do
-    Repo.insert!(%Account{name: name})
+    account = Repo.insert!(%Account{name: name})
+    account.id
   end
 end
