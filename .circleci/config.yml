@@ -13,3 +13,5 @@ jobs:
       - run: mix deps.get
       - run: mix compile --warnings-as-errors --force
       - run: mix test
+      - store_test_results:
+          path: /tmp/sea-elixir-test-results
