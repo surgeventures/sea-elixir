@@ -5,16 +5,6 @@ defmodule InvoicingApp.DataCase do
   alias Ecto.Adapters.SQL.Sandbox
   alias InvoicingApp.Repo
 
-  using do
-    quote do
-      alias InvoicingApp.Repo
-
-      import Ecto
-      import Ecto.{Changeset, Query}
-      import InvoicingApp.DataCase
-    end
-  end
-
   setup tags do
     :ok = Sandbox.checkout(Repo)
 

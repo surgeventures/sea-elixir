@@ -7,6 +7,7 @@ defmodule InvoicingApp.MixProject do
       version: "0.1.0",
       elixir: "~> 1.6",
       start_permanent: Mix.env() == :prod,
+      elixirc_paths: elixirc_paths(Mix.env()),
       deps: deps()
     ]
   end
@@ -18,10 +19,15 @@ defmodule InvoicingApp.MixProject do
     ]
   end
 
+  defp elixirc_paths(:test), do: ["test/support", "lib"]
+  defp elixirc_paths(_), do: ["lib"]
+
   defp deps do
     [
       {:ecto_sql, "~> 3.0"},
-      {:postgrex, ">= 0.0.0"},
+      {:ex_machina, "~> 2.2", only: :test},
+      {:mox, "~> 0.4", only: :test},
+      {:postgrex, "~> 0.14"},
       {:sea, path: "../.."},
       {:uuid, "~> 1.1"}
     ]

@@ -9,7 +9,6 @@ defmodule Sea.MixProject do
       version: @version,
       elixir: "~> 1.6",
       deps: deps(),
-      elixirc_paths: elixirc_paths(Mix.env()),
       test_coverage: [tool: ExCoveralls],
       preferred_cli_env: preferred_cli_env(),
 
@@ -37,9 +36,6 @@ defmodule Sea.MixProject do
       {:junit_formatter, "~> 3.0", only: :test}
     ]
   end
-
-  defp elixirc_paths(:test), do: ["test/support", "lib"]
-  defp elixirc_paths(_), do: ["lib"]
 
   defp preferred_cli_env do
     [

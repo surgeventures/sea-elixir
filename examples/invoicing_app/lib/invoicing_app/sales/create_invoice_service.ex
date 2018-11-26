@@ -1,6 +1,8 @@
 defmodule InvoicingApp.Sales.CreateInvoiceService do
   alias InvoicingApp.Repo
-  alias InvoicingApp.Sales.{Invoice, InvoiceCreatedSignal}
+  alias InvoicingApp.Sales.Invoice
+
+  @invoice_created_signal InvoicingApp.get_mod_config_key(__MODULE__, :invoice_created_signal)
 
   def call(product_id, customer_id) do
     invoice_attrs = [
@@ -14,7 +16,10 @@ defmodule InvoicingApp.Sales.CreateInvoiceService do
         |> Invoice.changeset()
         |> Repo.insert!()
 
-      InvoiceCreatedSignal.emit(invoice)
+      @invoice_created_signal.emit(invoice)
+
+      invoice
     end)
+    |> elem(1)
   end
 end

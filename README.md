@@ -60,3 +60,10 @@ breaking changes.
 
 The docs for `Sea` module, along with complete usage examples, can be found on
 [HexDocs](https://hexdocs.pm/sea).
+
+### Examples
+
+In addition to docs, you may also be interested in the [invoicing_app]
+(https://github.com/surgeventures/sea-elixir/tree/master/examples/invoicing_app) sample application
+that implements a simple DDD project. There, Sea plays a key role in decoupling contexts that
+interact with each other within a single database transaction.
