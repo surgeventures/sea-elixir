@@ -1,1 +1,3 @@
-Mox.defmock(InvoicingApp.SignalMock, for: Sea.Signal)
+import Sea.Mox
+
+defsignalmock(InvoicingApp.Sales.InvoiceCreatedSignal)

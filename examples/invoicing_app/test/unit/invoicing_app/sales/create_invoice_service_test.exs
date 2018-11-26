@@ -1,11 +1,11 @@
 defmodule InvoicingApp.Sales.CreateInvoiceServiceTest do
   use InvoicingApp.DataCase, async: true
   import InvoicingApp.Factories
-  import Mox
+  import Sea.Mox
   alias InvoicingApp.Sales
 
   test "call/2" do
-    stub(InvoicingApp.SignalMock, :emit, fn _ -> :ok end)
+    disable_signal(InvoicingApp.Sales.InvoiceCreatedSignal)
 
     %{id: customer_id} = insert(:customers_account)
     %{id: product_id} = insert(:inventory_product)

@@ -5,29 +5,33 @@ defmodule Sea.Signal do
   Take a look at `Sea` module for complete Signal + Observer usage examples.
   """
 
-  @doc """
-  Build the signal struct from arbitrary input (or return it if already a signal struct).
-
-  Sea provides the default implementation that will simply return the signal struct if it's provided
-  as argument. Specific signal module may define further variants of `build` capable of taking any
-  input and converting it to signal payload.
-  """
-  @callback build(any()) :: struct()
-
-  @doc """
-  Emit the signal from arbitrary input (converted to signal struct if necessary).
-
-  Sea provides its implementation of `emit` that will call `build` with whatever is passed to it in
-  order to normalize the input into the signal struct and then it'll call `Sea.Signal.emit/1` with
-  that in order to actually call defined observers.
-  """
-  @callback emit(any()) :: :ok
-
   defmacro __using__(_opts) do
     quote do
       import unquote(__MODULE__), only: :macros
 
-      @behaviour unquote(__MODULE__)
+      defmodule Behaviour do
+        @moduledoc false
+
+        @doc """
+        Build the signal struct from arbitrary input (or return it if already a signal struct).
+
+        Sea provides the default implementation that will simply return the signal struct if it's provided
+        as argument. Specific signal module may define further variants of `build` capable of taking any
+        input and converting it to signal payload.
+        """
+        @callback build(any()) :: struct()
+
+        @doc """
+        Emit the signal from arbitrary input (converted to signal struct if necessary).
+
+        Sea provides its implementation of `emit` that will call `build` with whatever is passed to it in
+        order to normalize the input into the signal struct and then it'll call `Sea.Signal.emit/1` with
+        that in order to actually call defined observers.
+        """
+        @callback emit(any()) :: :ok
+      end
+
+      @behaviour __MODULE__.Behaviour
 
       Module.register_attribute(__MODULE__, :observers_rev, accumulate: true)
 

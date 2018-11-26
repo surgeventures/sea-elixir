@@ -15,7 +15,7 @@ if Mix.env() == :test do
   config :invoicing_app, InvoicingApp.Repo, pool: Ecto.Adapters.SQL.Sandbox
 
   config :invoicing_app, InvoicingApp.Sales.CreateInvoiceService,
-    invoice_created_signal: InvoicingApp.SignalMock
+    invoice_created_signal: InvoicingApp.Sales.InvoiceCreatedSignal.Mock
 
   config :logger, level: :info
 end

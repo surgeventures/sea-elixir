@@ -1,14 +1,14 @@
 defmodule InvoicingTest do
   use InvoicingApp.DataCase, async: true
-  import Mox
+  import Sea.Mox
   alias InvoicingApp.{Analytics, Customers, Inventory, Sales}
 
-  test "create invoices for many customers until out of stock" do
-    stub_with(
-      InvoicingApp.SignalMock,
-      InvoicingApp.Sales.InvoiceCreatedSignal
-    )
+  setup do
+    enable_signal(InvoicingApp.Sales.InvoiceCreatedSignal)
+    :ok
+  end
 
+  test "create invoices for many customers until out of stock" do
     # create product and customers
     product = Inventory.create_product()
     mike = Customers.register_account("Mike")
