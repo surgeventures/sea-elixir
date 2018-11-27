@@ -24,16 +24,20 @@ defmodule Sea.MixProject do
 
   def application do
     [
-      extra_applications: []
+      extra_applications: extra_applications(Mix.env())
     ]
   end
+
+  def extra_applications(:test), do: [:mox]
+  def extra_applications(_), do: []
 
   defp deps do
     [
       {:credo, "~> 0.10", only: [:dev, :test]},
       {:ex_doc, "~> 0.19", only: :dev},
       {:excoveralls, "~> 0.10", only: :test},
-      {:junit_formatter, "~> 3.0", only: :test}
+      {:junit_formatter, "~> 3.0", only: :test},
+      {:mox, "~> 0.4", optional: true}
     ]
   end
 

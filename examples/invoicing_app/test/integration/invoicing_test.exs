@@ -1,6 +1,6 @@
 defmodule InvoicingTest do
   use InvoicingApp.DataCase, async: true
-  import Sea.Mox
+  import Sea.SignalMocking
   alias InvoicingApp.{Analytics, Customers, Inventory, Sales}
 
   setup do
@@ -19,7 +19,7 @@ defmodule InvoicingTest do
       Sales.create_invoice(product, jane)
     end)
 
-    # restock and sell
+    # restock and start selling
     Inventory.increase_stock(product, 3)
     Sales.create_invoice(product, mike)
     Sales.create_invoice(product, mike)

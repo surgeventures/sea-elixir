@@ -5,6 +5,24 @@ defmodule Sea.Signal do
   Take a look at `Sea` module for complete Signal + Observer usage examples.
   """
 
+  @doc """
+  Build the signal struct from arbitrary input (or return it if already a signal struct).
+
+  Sea provides the default implementation that will simply return the signal struct if it's provided
+  as argument. Specific signal module may define further variants of `build` capable of taking any
+  input and converting it to signal payload.
+  """
+  @callback build(any()) :: struct()
+
+  @doc """
+  Emit the signal from arbitrary input (converted to signal struct if necessary).
+
+  Sea provides its implementation of `emit` that will call `build` with whatever is passed to it in
+  order to normalize the input into the signal struct and then it'll call `Sea.Signal.emit/1` with
+  that in order to actually call defined observers.
+  """
+  @callback emit(any()) :: :ok
+
   defmacro __using__(_opts) do
     quote do
       import unquote(__MODULE__), only: :macros
@@ -12,22 +30,7 @@ defmodule Sea.Signal do
       defmodule Behaviour do
         @moduledoc false
 
-        @doc """
-        Build the signal struct from arbitrary input (or return it if already a signal struct).
-
-        Sea provides the default implementation that will simply return the signal struct if it's provided
-        as argument. Specific signal module may define further variants of `build` capable of taking any
-        input and converting it to signal payload.
-        """
         @callback build(any()) :: struct()
-
-        @doc """
-        Emit the signal from arbitrary input (converted to signal struct if necessary).
-
-        Sea provides its implementation of `emit` that will call `build` with whatever is passed to it in
-        order to normalize the input into the signal struct and then it'll call `Sea.Signal.emit/1` with
-        that in order to actually call defined observers.
-        """
         @callback emit(any()) :: :ok
       end
 
@@ -92,17 +95,17 @@ defmodule Sea.Signal do
       defmodule MyApp.Accounts.UserRegisteredSignal do
         use Sea.Signal
 
-        emits_to MyApp.Analytics.UserRegisteredObserver
-        emits_to [
+        emit_to MyApp.Analytics.UserRegisteredObserver
+        emit_to [
           OtherApp.Sales.UserRegisteredObserver,
           OtherApp.Analytics.UserRegisteredObserver
         ]
       end
 
   """
-  defmacro emits_to(observer_mod_or_mods)
+  defmacro emit_to(observer_mod_or_mods)
 
-  defmacro emits_to({{:., _, [base_alias = {:__aliases__, _, _}, :{}]}, _, sub_aliases}) do
+  defmacro emit_to({{:., _, [base_alias = {:__aliases__, _, _}, :{}]}, _, sub_aliases}) do
     base_mod = Macro.expand(base_alias, __CALLER__)
     nested_mods_names = Enum.map(sub_aliases, &elem(&1, 2))
 
@@ -112,19 +115,19 @@ defmodule Sea.Signal do
       end)
 
     quote do
-      emits_to(unquote(observer_mods))
+      emit_to(unquote(observer_mods))
     end
   end
 
-  defmacro emits_to(observer_mods) when is_list(observer_mods) do
+  defmacro emit_to(observer_mods) when is_list(observer_mods) do
     Enum.map(observer_mods, fn observer_mod ->
       quote do
-        emits_to(unquote(observer_mod))
+        emit_to(unquote(observer_mod))
       end
     end)
   end
 
-  defmacro emits_to(observer_mod) do
+  defmacro emit_to(observer_mod) do
     quote do
       if unquote(observer_mod) in @observers_rev do
         raise(
@@ -140,7 +143,7 @@ defmodule Sea.Signal do
   end
 
   @doc """
-  Adds convention-driven observer parent module(s) that signal will be emitted to.
+  Adds convention-driven observer parent module(s) that signal will be emitted within.
 
   The convention is that modules passed to the macro should have the observer modules nested in them
   dedicated for handling the signal. These nested modules should take their name from the signal mod
@@ -151,22 +154,22 @@ defmodule Sea.Signal do
       defmodule MyApp.Accounts.UserRegisteredSignal do
         use Sea.Signal
 
-        emits_into MyApp.Analytics
+        emit_within MyApp.Analytics
         # ...is equivalent to more explicit:
-        # emits_to MyApp.Analytics.UserRegisteredObserver
+        # emit_to MyApp.Analytics.UserRegisteredObserver
 
-        emits_into OtherApp.{Sales, Analytics}
+        emit_within OtherApp.{Sales, Analytics}
         # ...is equivalent to more explicit:
-        # emits_to [
+        # emit_to [
         #   OtherApp.Sales.UserRegisteredObserver,
         #   OtherApp.Analytics.UserRegisteredObserver
         # ]
       end
 
   """
-  defmacro emits_into(observer_parent_mod_or_mods)
+  defmacro emit_within(observer_parent_mod_or_mods)
 
-  defmacro emits_into({{:., _, [base_alias = {:__aliases__, _, _}, :{}]}, _, sub_aliases}) do
+  defmacro emit_within({{:., _, [base_alias = {:__aliases__, _, _}, :{}]}, _, sub_aliases}) do
     base_mod = Macro.expand(base_alias, __CALLER__)
     nested_mods_names = Enum.map(sub_aliases, &elem(&1, 2))
 
@@ -176,19 +179,19 @@ defmodule Sea.Signal do
       end)
 
     quote do
-      emits_into(unquote(observer_parent_mods))
+      emit_within(unquote(observer_parent_mods))
     end
   end
 
-  defmacro emits_into(observer_parent_mods) when is_list(observer_parent_mods) do
+  defmacro emit_within(observer_parent_mods) when is_list(observer_parent_mods) do
     Enum.map(observer_parent_mods, fn observer_parent_mod ->
       quote do
-        emits_into(unquote(observer_parent_mod))
+        emit_within(unquote(observer_parent_mod))
       end
     end)
   end
 
-  defmacro emits_into(observer_parent_mod) do
+  defmacro emit_within(observer_parent_mod) do
     prefix = Macro.expand(observer_parent_mod, __CALLER__)
 
     suffix =
@@ -200,7 +203,7 @@ defmodule Sea.Signal do
     observer_mod = :"#{prefix}.#{suffix}"
 
     quote do
-      emits_to(unquote(observer_mod))
+      emit_to(unquote(observer_mod))
     end
   end
 

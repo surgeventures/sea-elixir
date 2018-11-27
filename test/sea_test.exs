@@ -2,18 +2,18 @@ defmodule SeaTest do
   use ExUnit.Case
   import ExUnit.CaptureIO
 
-  test "master example" do
+  test "multiple signals using varying syntax" do
     defmodule SampleSignal do
       use Sea.Signal
 
       defstruct [:number_as_string]
 
-      emits_to(SeaTest.Mod1)
-      emits_to(SeaTest.{Mod2, Mod3})
-      emits_to([SeaTest.Mod4, SeaTest.Mod5])
-      emits_into(SeaTest.Mod6)
-      emits_into(SeaTest.{Mod7, Mod8})
-      emits_into([SeaTest.Mod9, SeaTest.ModA])
+      emit_to(SeaTest.Mod1)
+      emit_to(SeaTest.{Mod2, Mod3})
+      emit_to([SeaTest.Mod4, SeaTest.Mod5])
+      emit_within(SeaTest.Mod6)
+      emit_within(SeaTest.{Mod7, Mod8})
+      emit_within([SeaTest.Mod9, SeaTest.ModA])
 
       def build(1) do
         %__MODULE__{number_as_string: "one"}
@@ -123,6 +123,62 @@ defmodule SeaTest do
            Mod8 got one
            Mod9 got one
            ModA got one
+           """
+  end
+
+  test "signal mocking" do
+    defmodule MockableSignal do
+      use Sea.Signal
+
+      defstruct []
+
+      emit_to(SeaTest.MockableObserver)
+
+      def build(:empty), do: %__MODULE__{}
+    end
+
+    defmodule MockableObserver do
+      use Sea.Observer
+
+      @impl true
+      def handle_signal(%MockableSignal{}) do
+        IO.puts("MockableObserver called")
+      end
+    end
+
+    assert capture_io(fn ->
+             MockableSignal.emit(:empty)
+           end) == """
+           MockableObserver called
+           """
+
+    Sea.SignalMocking.defsignalmock(MockableSignal)
+
+    assert_raise(Mox.UnexpectedCallError, fn ->
+      MockableSignal.Mock.emit(:empty)
+    end)
+
+    Sea.SignalMocking.enable_signal(MockableSignal)
+
+    assert capture_io(fn ->
+             MockableSignal.Mock.emit(:empty)
+           end) == """
+           MockableObserver called
+           """
+
+    Sea.SignalMocking.disable_signal(MockableSignal)
+
+    assert capture_io(fn ->
+             MockableSignal.Mock.emit(:empty)
+           end) == """
+           """
+
+    Sea.SignalMocking.enable_signal(MockableSignal)
+
+    assert capture_io(fn ->
+             MockableSignal.Mock.emit(:empty)
+           end) == """
+           MockableObserver called
            """
   end
 end

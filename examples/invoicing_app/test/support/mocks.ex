@@ -1,3 +1,3 @@
-import Sea.Mox
+import Sea.SignalMocking
 
 defsignalmock(InvoicingApp.Sales.InvoiceCreatedSignal)
