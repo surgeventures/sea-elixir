@@ -1,3 +1,5 @@
+# credo:disable-for-this-file Credo.Check.Design.AliasUsage
+
 defmodule SeaTest do
   use ExUnit.Case
   import ExUnit.CaptureIO
