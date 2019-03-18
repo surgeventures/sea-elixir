@@ -16,6 +16,36 @@ synchronous operations within single system. It was introduced as an optimal abs
 facilitating side-effect-like interactions between relatively uncoupled modules (or "contexts" if
 you will) that interact with each other in synchronous way within single coherent system.
 
+## Installation
+
+Add `sea` to your list of dependencies in `mix.exs`:
+
+```elixir
+def deps do
+  [
+    {:sea, "~> 0.2.0"}
+  ]
+end
+```
+
+You may pick the newest version number from [Hex](https://hex.pm/packages/sea).
+
+## Usage
+
+Complete documentation for `Sea` module, along with comprehensive guides that'll lead you through
+concepts behind Sea, can be found on [HexDocs](https://hexdocs.pm/sea).
+
+- [Basic example]
+- [Building signals]
+- [Organizing observers]
+- [Decoupling contexts]
+- [Testing]
+- [API reference]
+
+In addition to docs, you may also be interested in the [invoicing_app] sample application that
+implements a simple DDD project. There, Sea plays a key role in decoupling contexts that interact
+with each other within a single database transaction.
+
 ## Motivation
 
 Sea is a pattern library. As such it's really thin and technically unsophisticated (although it does
@@ -49,29 +79,10 @@ itself and its impact on your codebase.
 * **sync & async unification** - plug async eventing solution as one of synchronous transactional
   side-effects to achieve reliable sync and async flows with single eventing syntax
 
-## Installation
-
-Add `sea` to your list of dependencies in `mix.exs`:
-
-```elixir
-def deps do
-  [
-    {:sea, "~> 0.2.0"}
-  ]
-end
-```
-
-You may pick the newest version number from [Hex](https://hex.pm/packages/sea).
-
-## Usage
-
-Complete documentation for `Sea` module, along with comprehensive guides that'll lead you through
-concepts behind Sea, can be found on [HexDocs](https://hexdocs.pm/sea).
-
-### Examples
-
-In addition to docs, you may also be interested in the [invoicing_app] sample application that
-implements a simple DDD project. There, Sea plays a key role in decoupling contexts that interact
-with each other within a single database transaction.
-
+[Basic example]: https://hexdocs.pm/sea/basic_example.html
+[Building signals]: https://hexdocs.pm/sea/building_signals.html
+[Organizing observers]: https://hexdocs.pm/sea/organizing_observers.html
+[Decoupling contexts]: https://hexdocs.pm/sea/decoupling_contexts.html
+[Testing]: https://hexdocs.pm/sea/testing.html
+[API reference]: https://hexdocs.pm/sea/api-reference.html
 [invoicing_app]: https://github.com/surgeventures/sea-elixir/tree/master/examples/invoicing_app
