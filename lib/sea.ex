@@ -5,7 +5,7 @@ defmodule Sea do
   Sea consists of following modules:
 
   - `Sea.Signal` - defines signal that will get emitted to defined observers
-  - `Sea.Observer` - Defines observer capable of handling signals emitted to it
+  - `Sea.Observer` - defines observer capable of handling signals emitted to it
 
   ## Usage
 
@@ -216,6 +216,10 @@ defmodule Sea do
       # ...
 
       verify!(SomeSignal.Mock)
+
+  > A complete end-to-end example on side-effect unit and integration testing may be found in
+    [invoicing_app](https://github.com/surgeventures/sea-elixir/tree/master/examples/invoicing_app).
+    Specifically, `test/unit` and `test/integration` represent both approaches described above.
 
   """
 end
