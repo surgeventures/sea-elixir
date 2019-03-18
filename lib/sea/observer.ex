@@ -1,8 +1,6 @@
 defmodule Sea.Observer do
   @moduledoc """
   Defines observer capable of handling signals that will get emitted to it.
-
-  Take a look at `Sea` module for complete Signal + Observer usage examples.
   """
 
   @doc """

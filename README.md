@@ -5,7 +5,16 @@
 [![Build status badge](https://img.shields.io/circleci/project/github/surgeventures/sea-elixir/master.svg)](https://circleci.com/gh/surgeventures/sea-elixir/tree/master)
 [![Code coverage badge](https://img.shields.io/codecov/c/github/surgeventures/sea-elixir/master.svg)](https://codecov.io/gh/surgeventures/sea-elixir/branch/master)
 
-Side-effect abstraction for Elixir - signal and observe your side-effects like a pro.
+Sea facilitates and abstracts away side-effects - an important aspect of your Elixir applications
+that often gets lost between the lines. It does so in a way loosely inspired by the observer pattern
+ie. by making the source event (here, represented by signal) aware of its listeners (here,
+represented by observers).
+
+This design choice, as opposed eg. to pubsub where producer is made unaware of consumers,
+intentionally couples the signal with its observers in order to simplify the reasoning about
+synchronous operations within single system. It was introduced as an optimal abstraction for
+facilitating side-effect-like interactions between relatively uncoupled modules (or "contexts" if
+you will) that interact with each other in synchronous way within single coherent system.
 
 ## Motivation
 
@@ -47,21 +56,17 @@ Add `sea` to your list of dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:sea, "~> x.y"}
+    {:sea, "~> 0.1.0"}
   ]
 end
 ```
 
 You may pick the newest version number from [Hex](https://hex.pm/packages/sea).
 
-As the package strictly follows [semantic versioning](https://semver.org), you may specify the
-version as `~> x.y` so that you're up-to-date with minor & patch releases and stay away from
-breaking changes.
-
 ## Usage
 
-The docs for `Sea` module, along with complete usage examples, can be found on
-[HexDocs](https://hexdocs.pm/sea).
+Complete documentation for `Sea` module, along with comprehensive guides that'll lead you through
+concepts behind Sea, can be found on [HexDocs](https://hexdocs.pm/sea).
 
 ### Examples
 

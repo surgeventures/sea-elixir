@@ -1,8 +1,6 @@
 defmodule Sea.Signal do
   @moduledoc """
   Defines signal (aka. event) with payload that will get emitted to defined observers.
-
-  Take a look at `Sea` module for complete Signal + Observer usage examples.
   """
 
   @doc """

@@ -68,7 +68,26 @@ defmodule Sea.MixProject do
       source_ref: "v#{@version}",
       canonical: "http://hexdocs.pm/sea",
       source_url: "https://github.com/surgeventures/sea-elixir",
-      extras: ["README.md"]
+      extras: extras(),
+      groups_for_extras: groups_for_extras()
+    ]
+  end
+
+  defp extras do
+    [
+      "README.md",
+      "CHANGELOG.md",
+      "guides/basic_example.md",
+      "guides/building_signals.md",
+      "guides/organizing_observers.md",
+      "guides/decoupling_contexts.md",
+      "guides/testing.md"
+    ]
+  end
+
+  defp groups_for_extras do
+    [
+      Guides: ~r/guides\/[^\/]+\.md/
     ]
   end
 end
