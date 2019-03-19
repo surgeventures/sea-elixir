@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+- Added *Defining side-effects responsibly* guide
+- Added *Composing transactions* guide
+
 ## 0.2.0
 
 - Revamped documentation

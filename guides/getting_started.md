@@ -1,4 +1,4 @@
-# Basic example
+# Getting started
 
 In Sea, you define signal and a bunch of observers that get called upon signal emission:
 
