@@ -88,18 +88,40 @@ defmodule Sea.Signal do
   @doc """
   Adds observer module(s) that signal will be emitted to.
 
+  It may be invoked multiple times, but specific observer may be added only once.
+
   ## Example
 
-      defmodule MyApp.Accounts.UserRegisteredSignal do
+  Emit to single observer:
+
+      defmodule MainApp.Accounts.UserRegisteredSignal do
         use Sea.Signal
 
-        emit_to MyApp.Analytics.UserRegisteredObserver
+        emit_to AnalyticsApp.Observer
+        emit_to CustomerExperienceApp.Observer
+      end
+
+  Emit to multiple observers specified as an array:
+
+      defmodule MainApp.Accounts.UserRegisteredSignal do
+        use Sea.Signal
+
         emit_to [
-          OtherApp.Sales.UserRegisteredObserver,
-          OtherApp.Analytics.UserRegisteredObserver
+          MainApp.Mailing.UserRegisteredObserver,
+          MainApp.Sales.UserRegisteredObserver
         ]
       end
 
+  Emit to multiple observers specified with the multi-alias syntax:
+
+      defmodule MainApp.Accounts.UserRegisteredSignal do
+        use Sea.Signal
+
+        emit_to CustomerExperienceApp.{Mailing, Sales}
+      end
+
+  Examples above present multiple approaches to organizing observers. Please refer to *Organizing
+  observers* guide for complete explanation and examples on how to approach this problem.
   """
   defmacro emit_to(observer_mod_or_mods)
 
@@ -137,71 +159,6 @@ defmodule Sea.Signal do
       end
 
       @observers_rev unquote(observer_mod)
-    end
-  end
-
-  @doc """
-  Adds convention-driven observer parent module(s) that signal will be emitted within.
-
-  The convention is that modules passed to the macro should have the observer modules nested in them
-  dedicated for handling the signal. These nested modules should take their name from the signal mod
-  name, just with the `Signal` suffix replaced by the `Observer` suffix.
-
-  ## Example
-
-      defmodule MyApp.Accounts.UserRegisteredSignal do
-        use Sea.Signal
-
-        emit_within MyApp.Analytics
-        # ...is equivalent to more explicit:
-        # emit_to MyApp.Analytics.UserRegisteredObserver
-
-        emit_within OtherApp.{Sales, Analytics}
-        # ...is equivalent to more explicit:
-        # emit_to [
-        #   OtherApp.Sales.UserRegisteredObserver,
-        #   OtherApp.Analytics.UserRegisteredObserver
-        # ]
-      end
-
-  """
-  defmacro emit_within(observer_parent_mod_or_mods)
-
-  defmacro emit_within({{:., _, [base_alias = {:__aliases__, _, _}, :{}]}, _, sub_aliases}) do
-    base_mod = Macro.expand(base_alias, __CALLER__)
-    nested_mods_names = Enum.map(sub_aliases, &elem(&1, 2))
-
-    observer_parent_mods =
-      Enum.map(nested_mods_names, fn nested_mod_names ->
-        :"#{base_mod}.#{Enum.join(nested_mod_names, ".")}"
-      end)
-
-    quote do
-      emit_within(unquote(observer_parent_mods))
-    end
-  end
-
-  defmacro emit_within(observer_parent_mods) when is_list(observer_parent_mods) do
-    Enum.map(observer_parent_mods, fn observer_parent_mod ->
-      quote do
-        emit_within(unquote(observer_parent_mod))
-      end
-    end)
-  end
-
-  defmacro emit_within(observer_parent_mod) do
-    prefix = Macro.expand(observer_parent_mod, __CALLER__)
-
-    suffix =
-      __CALLER__.module
-      |> Module.split()
-      |> List.last()
-      |> String.replace(~r/Signal$/, "Observer")
-
-    observer_mod = :"#{prefix}.#{suffix}"
-
-    quote do
-      emit_to(unquote(observer_mod))
     end
   end
 

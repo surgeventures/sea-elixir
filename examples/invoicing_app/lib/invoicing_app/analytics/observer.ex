@@ -1,4 +1,4 @@
-defmodule InvoicingApp.Analytics.InvoiceCreatedObserver do
+defmodule InvoicingApp.Analytics.Observer do
   use Sea.Observer
 
   alias InvoicingApp.Repo

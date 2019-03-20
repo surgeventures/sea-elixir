@@ -44,7 +44,7 @@ Let's start by introducing a signal capable of building itself from our invoice 
     defmodule InvoicingApp.Sales.InvoiceCreatedSignal do
       use Sea.Signal
 
-      emit_within InvoicingApp.{Analytics, Customers, Inventory}
+      emit_to InvoicingApp.{Analytics, Customers, Inventory}
 
       defstruct [:customer_id, :product_id]
 

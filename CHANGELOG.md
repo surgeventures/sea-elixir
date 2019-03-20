@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Removed `Sea.Signal.emit_within/1`
+
 ## 0.2.0
 
 - Revamped documentation
