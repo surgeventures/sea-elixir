@@ -77,10 +77,12 @@ defmodule Sea.MixProject do
     [
       "README.md",
       "CHANGELOG.md",
-      "guides/basic_example.md",
+      "guides/getting_started.md",
       "guides/building_signals.md",
       "guides/organizing_observers.md",
       "guides/decoupling_contexts.md",
+      "guides/defining_side_effects_responsibly.md",
+      "guides/composing_transactions.md",
       "guides/testing.md"
     ]
   end
