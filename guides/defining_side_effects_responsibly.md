@@ -8,7 +8,10 @@ service logic?
 
 Above every technical detail and convenience brought by Sea, it provides a logical separation for
 side-effects as a distinct part of your applications. As such, the judgement about differentiaing
-core service logic from side-effects is not a technical one and depends on your application.
+core service logic from side-effects is not a technical one, but should rather be dictated by
+logical/business/domain split of your application. And so your signals should be oriented around
+business/domain events rather than technical indicators (such as eg. end of every database
+transaction - which smells suspiciously similar to [model callbacks banished from Ecto]).
 
 In a system with multiple loosely-coupled modules (or "contexts") it's those modules that are
 responsible for drawing the boundaries between self-contained functional areas of the system. In
@@ -64,6 +67,7 @@ unit without particular "side-effect" then perhaps it's not a side-effect after 
 that's the case of [`CreateInvoiceServiceTest`] test which deeply cares about the
 `stock_cannot_be_negative` constraint.
 
+[model callbacks banished from Ecto]: http://blog.plataformatec.com.br/2015/12/ecto-v1-1-released-and-ecto-v2-0-plans
 [`CreateInvoiceService`]: https://github.com/surgeventures/sea-elixir/tree/master/examples/invoicing_app/lib/invoicing_app/sales/create_invoice_service.ex
 [`InvoiceCreatedSignal`]: https://github.com/surgeventures/sea-elixir/tree/master/examples/invoicing_app/lib/invoicing_app/sales/invoice_created_signal.ex
 [`CreateInvoiceServiceTest`]: https://github.com/surgeventures/sea-elixir/tree/master/examples/invoicing_app/test/unit/invoicing_app/sales/create_invoice_service_test.exs
