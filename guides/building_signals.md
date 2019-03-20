@@ -5,9 +5,9 @@ As established, `Sea.Signal.emit/1` takes your signal struct and emits it to def
     %InvoiceCreatedSignal{invoice_number: "2019/1"}
     |> Sea.Signal.emit()
 
-In practice, you'll often want to convert more complex data structures into signal payload. In such
-cases, the signal module serves as a fitting place for placing such conversion. Let's place it in
-`build` function like below:
+In practice, you'll often want to convert more complex data structures into signal payload -
+properly documented and decoupled from original context. In such cases, the signal module serves as
+a fitting place for placing such conversion. Let's place it in `build` function like below:
 
     defmodule InvoiceCreatedSignal do
       use Sea.Signal

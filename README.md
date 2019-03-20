@@ -35,10 +35,12 @@ You may pick the newest version number from [Hex](https://hex.pm/packages/sea).
 Complete documentation for `Sea` module, along with comprehensive guides that'll lead you through
 concepts behind Sea, can be found on [HexDocs](https://hexdocs.pm/sea).
 
-- [Basic example]
+- [Getting started]
 - [Building signals]
 - [Organizing observers]
 - [Decoupling contexts]
+- [Defining side-effects responsibly]
+- [Composing transactions]
 - [Testing]
 - [API reference]
 
@@ -79,10 +81,12 @@ itself and its impact on your codebase.
 * **sync & async unification** - plug async eventing solution as one of synchronous transactional
   side-effects to achieve reliable sync and async flows with single eventing syntax
 
-[Basic example]: https://hexdocs.pm/sea/basic_example.html
+[Getting started]: https://hexdocs.pm/sea/getting_started.html
 [Building signals]: https://hexdocs.pm/sea/building_signals.html
 [Organizing observers]: https://hexdocs.pm/sea/organizing_observers.html
 [Decoupling contexts]: https://hexdocs.pm/sea/decoupling_contexts.html
+[Defining side-effects responsibly]: https://hexdocs.pm/sea/defining_side_effects_responsibly.html
+[Composing transactions]: https://hexdocs.pm/sea/composing_transactions.html
 [Testing]: https://hexdocs.pm/sea/testing.html
 [API reference]: https://hexdocs.pm/sea/api-reference.html
 [invoicing_app]: https://github.com/surgeventures/sea-elixir/tree/master/examples/invoicing_app

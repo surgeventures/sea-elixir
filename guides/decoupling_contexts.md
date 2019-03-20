@@ -32,9 +32,11 @@ You start with a service that causes several side-effects across the system:
 As you can see, each external side-effect is directly invoked from the original service, which means
 that:
 
-- it's hard to tell where's this unit's logic ends and side-effects start
+- this code doesn't emphasize (doesn't signal) where's the point at which invoice is created
+- it's hard to tell the logical boundary between this unit's logic and external side-effects
 - side-effects are hard to mock away for unit testing purposes
 - each side-effect must have relevant external (possibly redundant) API interface available
+- it's tempting to pass rich and coupled data structures to those external APIs
 - each additional side-effect will cause this unit's code to grow further
 
 We'll fix these issues by abstracting away these side-effects.
@@ -106,8 +108,7 @@ And finally, let's ensure that observers are in place to handle the external sid
     end
 
 That's it - the side-effect has been properly facilitated and all the perks presented in [motivation
-section of the README] are applied in full force.
+section of the readme] are applied in full force.
 
 [invoicing_app]: https://github.com/surgeventures/sea-elixir/tree/master/examples/invoicing_app
-
-[motivation section of the README]: readme.html#motivation
+[motivation section of the readme]: readme.html#motivation

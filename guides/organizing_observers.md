@@ -8,7 +8,7 @@ some of possible approaches and propose technical solutions for applying them ef
 For instance, you could choose to share observer logic for handling multiple signals by implementing
 single observer module with multiple `c:Sea.Observer.handle_signal/1` clauses, target it from
 multiple signals and pattern-match specific signal or group of signals there. The
-`AnalyticsObserver` from the [basic example] could become such multi-signal observer, ie:
+`AnalyticsObserver` from the [getting started guide] could become such multi-signal observer, ie:
 
     defmodule AnalyticsObserver do
       use Sea.Observer
@@ -128,7 +128,7 @@ This way all of your observers will be organized in consistent and predictable w
 module that describes the rules governing this aspect of your application and with explicit yet
 compact references to it all over the project.
 
-[Basic example]: basic_example.html
+[getting started guide]: getting_started.html
 [`InvoicingApp.Analytics.Observer`]: https://github.com/surgeventures/sea-elixir/tree/master/examples/invoicing_app/lib/invoicing_app/analytics/observer.ex
 [`InvoicingApp.Customers.InvoiceCreatedObserver`]: https://github.com/surgeventures/sea-elixir/tree/master/examples/invoicing_app/lib/invoicing_app/customers/invoice_created_observer.ex
 [`InvoicingApp.Inventory.InvoiceCreatedObserver`]: https://github.com/surgeventures/sea-elixir/tree/master/examples/invoicing_app/lib/invoicing_app/inventory/invoice_created_observer.ex
