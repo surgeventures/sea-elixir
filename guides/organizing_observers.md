@@ -6,7 +6,7 @@ You can organize your signals and observers in any way you like and link them fr
 For instance, you could choose to share observer logic for handling multiple signals by implementing
 single observer module with multiple `c:Sea.Observer.handle_signal/1` clauses, target it from multiple
 signals and pattern-match specific signal or group of signals there. The `AnalyticsObserver` from
-the [basic example] could become such multi-signal observer, ie:
+the [getting started guide] could become such multi-signal observer, ie:
 
     defmodule AnalyticsObserver do
       use Sea.Observer
@@ -48,4 +48,4 @@ In such case, Sea will take the original signal name and replace the `Signal` su
 suffix to infer the name of observer module within specific parent (context) module. This should
 keep the entire codebase that sticks to `emit_within` consistent and predictable.
 
-[Basic example]: basic_example.html
+[getting started guide]: getting_started.html
