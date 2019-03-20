@@ -3,16 +3,9 @@ defmodule InvoicingApp.Customers do
   Customers system manages customers interested in purchasing products.
   """
 
-  alias __MODULE__.{
-    CheckActiveService,
-    RegisterAccountService
-  }
+  use InvoicingApp.SignalRouter, :one_signal_one_observer
+  alias __MODULE__.{CheckActiveService, RegisterAccountService}
 
-  def active?(account_id) do
-    CheckActiveService.call(account_id)
-  end
-
-  def register_account(name) do
-    RegisterAccountService.call(name)
-  end
+  defdelegate active?(account_id), to: CheckActiveService, as: :call
+  defdelegate register_account(name), to: RegisterAccountService, as: :call
 end

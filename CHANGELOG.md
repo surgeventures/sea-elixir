@@ -4,6 +4,7 @@
 
 - Added *Defining side-effects responsibly* guide
 - Added *Composing transactions* guide
+- Removed `Sea.Signal.emit_within/1`
 
 ## 0.2.0
 

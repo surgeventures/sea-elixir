@@ -3,16 +3,9 @@ defmodule InvoicingApp.Inventory do
   Inventory system manages products and their stock levels.
   """
 
-  alias __MODULE__.{
-    CreateProductService,
-    IncreaseStockService
-  }
+  use InvoicingApp.SignalRouter, :one_signal_one_observer
+  alias __MODULE__.{CreateProductService, IncreaseStockService}
 
-  def create_product do
-    CreateProductService.call()
-  end
-
-  def increase_stock(product_id, amount \\ 1) do
-    IncreaseStockService.call(product_id, amount)
-  end
+  defdelegate create_product, to: CreateProductService, as: :call
+  defdelegate increase_stock(product_id, amount \\ 1), to: IncreaseStockService, as: :call
 end
