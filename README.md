@@ -23,7 +23,7 @@ Add `sea` to your list of dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:sea, "~> 0.2.0"}
+    {:sea, "~> 0.3.0"}
   ]
 end
 ```
