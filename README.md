@@ -1,7 +1,7 @@
 # Sea for Elixir
 
 [![Hex version badge](https://img.shields.io/hexpm/v/sea.svg)](https://hex.pm/packages/sea)
-[![License badge](https://img.shields.io/hexpm/l/sea.svg)](https://github.com/surgeventures/sea-elixir/blob/master/LICENSE.md)
+[![License badge](https://img.shields.io/github/license/surgeventures/sea-elixir.svg)](https://github.com/surgeventures/sea-elixir/blob/master/LICENSE.md)
 [![Build status badge](https://img.shields.io/circleci/project/github/surgeventures/sea-elixir/master.svg)](https://circleci.com/gh/surgeventures/sea-elixir/tree/master)
 [![Code coverage badge](https://img.shields.io/codecov/c/github/surgeventures/sea-elixir/master.svg)](https://codecov.io/gh/surgeventures/sea-elixir/branch/master)
 
