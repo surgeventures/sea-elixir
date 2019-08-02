@@ -1,11 +1,36 @@
-defmodule InvoicingApp.SignalRouter do
+defmodule Sea.SignalRouter do
   @moduledoc """
   Defines project-wide convention for routing Sea signals to nested observers.
 
-  This module is completely optional but serves as a working example as to how to route signals sent
-  to root-level module deeper into observers within it. This way we can write `emit_to
-  InvoicingApp.Inventory` instead of `emit_to InvoicingApp.Inventory.InvoiceCreatedObserver` which
-  yields benefits described in the *Organizing observers* guide.
+  ## Usage
+
+  For single observer:
+
+      defmodule MyApp.Sales.InvoiceCreatedSignal do
+        use Sea.Signal
+
+        emit_to MyApp.Inventory
+
+        # ...
+      end
+
+      defmodule MyApp.Inventory do
+        use Sea.SignalRouter, :single_observer
+
+        # ...
+      end
+
+      defmodule MyApp.Inventory.Observer do
+        use Sea.Observer
+
+        # example of catching multiple signals to trigger the same operation
+        def handle_signal(signal = %{__struct__: struct}) when struct in [
+          MyApp.Sales.InvoiceCreatedSignal
+        ] do
+          MyApp.Inventory.UpdateStatsService.call()
+        end
+      end
+
   """
 
   @doc """

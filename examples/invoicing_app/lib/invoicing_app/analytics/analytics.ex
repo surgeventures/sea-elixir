@@ -3,7 +3,7 @@ defmodule InvoicingApp.Analytics do
   Analytics system manages data warehousing, bookkeeping and reporting.
   """
 
-  use InvoicingApp.SignalRouter, :single_observer
+  use Sea.SignalRouter, :single_observer
   alias __MODULE__.GetInvoiceCountService
 
   defdelegate get_invoice_count(customer_id), to: GetInvoiceCountService, as: :call

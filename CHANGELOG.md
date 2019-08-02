@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-(add changes here)
+- Added `Sea.SignalRouter`
 
 ## 0.3.0
 
@@ -12,8 +12,8 @@
 
 ## 0.2.0
 
-- Revamped documentation
+- Changed documentation
 
 ## 0.1.0
 
-- Initial versioned release
+- Added `Sea`

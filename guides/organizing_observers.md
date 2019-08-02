@@ -91,38 +91,9 @@ Here, the original signal name was taken and the `Signal` suffix was replaced wi
 in order to infer the name of child observer module within specific entry module.
 
 Finally, you could put one (or both) of these observer organization strategies into reusable module
-that you would subsequently `use` in all entry modules that include observers. You can find a sample
-working implementation of such solution in the [`InvoicingApp.SignalRouter`] module:
-
-    defmodule InvoicingApp.SignalRouter do
-      def single_observer do
-        quote do
-          # handle_signal delegate presented above for InvoicingApp.Analytics
-        end
-      end
-
-      def one_signal_one_observer do
-        quote do
-          # handle_signal router presented above for InvoicingApp.Customers
-        end
-      end
-
-      defmacro __using__(which) when is_atom(which) do
-        apply(__MODULE__, which, [])
-      end
-    end
-
-    def InvoicingApp.Analytics do
-      use InvoicingApp.SignalRouter, :single_observer
-    end
-
-    def InvoicingApp.Customers do
-      use InvoicingApp.SignalRouter, :one_signal_one_observer
-    end
-
-    def InvoicingApp.Inventory do
-      use InvoicingApp.SignalRouter, :one_signal_one_observer
-    end
+that you would subsequently `use` in all entry modules that include observers. A basic version of
+such router that covers routing strategies described above is available in `Sea.SignalRouter`
+module. You can easily create your own as well.
 
 This way all of your observers will be organized in consistent and predictable way, with a single
 module that describes the rules governing this aspect of your application and with explicit yet
@@ -132,4 +103,3 @@ compact references to it all over the project.
 [`InvoicingApp.Analytics.Observer`]: https://github.com/surgeventures/sea-elixir/tree/master/examples/invoicing_app/lib/invoicing_app/analytics/observer.ex
 [`InvoicingApp.Customers.InvoiceCreatedObserver`]: https://github.com/surgeventures/sea-elixir/tree/master/examples/invoicing_app/lib/invoicing_app/customers/invoice_created_observer.ex
 [`InvoicingApp.Inventory.InvoiceCreatedObserver`]: https://github.com/surgeventures/sea-elixir/tree/master/examples/invoicing_app/lib/invoicing_app/inventory/invoice_created_observer.ex
-[`InvoicingApp.SignalRouter`]: https://github.com/surgeventures/sea-elixir/tree/master/examples/invoicing_app/lib/invoicing_app/signal_router.ex
