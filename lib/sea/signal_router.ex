@@ -55,7 +55,7 @@ defmodule Sea.SignalRouter do
       use Sea.Observer
 
       @impl true
-      def handle_signal(signal = %{__struct__: signal_mod}) do
+      def handle_signal(%{__struct__: signal_mod} = signal) do
         signal_name = signal_mod |> Module.split() |> List.last()
         observer_name = String.replace(signal_name, ~r/Signal$/, "Observer")
         observer_mod = :"#{__MODULE__}.#{observer_name}"
