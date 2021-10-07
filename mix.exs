@@ -37,7 +37,7 @@ defmodule Sea.MixProject do
       {:ex_doc, "~> 0.19", only: :dev},
       {:excoveralls, "~> 0.10", only: :test},
       {:junit_formatter, "~> 3.0", only: :test},
-      {:mox, "~> 0.4", optional: true}
+      {:mox, "~> 1.0", optional: true}
     ]
   end
 
