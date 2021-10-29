@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## 0.5.0
+
+- Bumped mox dependency version to `~>1.0`
+
 ## 0.4.0
 
 - Added `Sea.SignalRouter`
