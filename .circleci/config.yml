@@ -1,43 +1,36 @@
-version: 2
+version: 2.1
+
+orbs:
+  elixir-orb: fresha/elixir-orb@0.2
+
 workflows:
   version: 2
   ci:
     jobs:
-    - sea
-    - invoicing_app
-jobs:
-  sea:
-    docker:
-      - image: circleci/elixir:1.7.4
-    environment:
-      - MIX_ENV: test
-    working_directory: ~/repo
-    steps:
-      - checkout
-      - run: mix local.hex --force
-      - run: mix local.rebar --force
-      - run: mix deps.get
-      - run: mix compile --warnings-as-errors --force
-      - run: mix format --check-formatted --dry-run
-      - run: mix test
-      - store_test_results:
-          path: /tmp/sea-elixir-test-results
-      - run: mix credo
-      - run: mix coveralls.json
-      - run: bash <(curl -s https://codecov.io/bash)
-  invoicing_app:
-    docker:
-      - image: circleci/elixir:1.7.4
-      - image: circleci/postgres:10.6-alpine
-    environment:
-      - MIX_ENV: test
-    working_directory: ~/repo/examples/invoicing_app
-    steps:
-      - checkout:
-          path: ~/repo
-      - run: mix local.hex --force
-      - run: mix local.rebar --force
-      - run: mix deps.get
-      - run: mix ecto.create
-      - run: mix ecto.migrate
-      - run: mix test
+      - elixir-orb/test:
+          context: Hex
+      - elixir-orb/static-check:
+          dialyzer: true
+          context: Hex
+      - hold-for-dev-publish:
+          type: approval
+          requires:
+            - elixir-orb/test
+            - elixir-orb/static-check
+          filters:
+            branches:
+              ignore:
+                - master
+      - elixir-orb/dev-publish:
+          context: Hex
+          requires:
+            - hold-for-dev-publish
+      - elixir-orb/deploy:
+          context: Hex
+          requires:
+            - elixir-orb/test
+            - elixir-orb/static-check
+          filters:
+            branches:
+              only:
+                - master
