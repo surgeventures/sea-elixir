@@ -29,6 +29,7 @@ defmodule Sea.MixProject do
   end
 
   def extra_applications(:test), do: [:mox]
+  def extra_applications(:dev), do: [:mox]
   def extra_applications(_), do: []
 
   defp deps do
