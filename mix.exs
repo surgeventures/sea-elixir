@@ -29,14 +29,16 @@ defmodule Sea.MixProject do
   end
 
   def extra_applications(:test), do: [:mox]
+  def extra_applications(:dev), do: [:mox]
   def extra_applications(_), do: []
 
   defp deps do
     [
-      {:credo, "~> 0.10", only: [:dev, :test]},
-      {:ex_doc, "~> 0.19", only: :dev},
+      {:credo, "~> 1.5", only: [:dev, :test]},
+      {:dialyxir, "~> 1.0", only: :dev, runtime: false},
+      {:ex_doc, "~> 0.19", only: :dev, runtime: false},
       {:excoveralls, "~> 0.10", only: :test},
-      {:junit_formatter, "~> 3.0", only: :test},
+      {:junit_formatter, "~> 3.3", only: :test},
       {:mox, "~> 1.0", optional: true}
     ]
   end
